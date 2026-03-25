@@ -29,5 +29,22 @@
         "respostaCorreta": 0
       }
     ]
+  },
+  {
+    "id": "1774461643848",
+    "titulo": "Avaliação Especifica 1 Bimestre",
+    "questoes": [
+      {
+        "id": "1774461589376",
+        "enunciado": "Qual é o nome da capital do Amazonas?",
+        "alternativas": [
+          "Manaus",
+          "Rio de Janeiro",
+          "Recife"
+        ],
+        "respostaCorreta": 0
+      }
+    ],
+    "dataCriacao": "2026-03-25T18:00:43.848Z"
   }
 ]
