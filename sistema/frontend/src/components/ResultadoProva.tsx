@@ -6,6 +6,14 @@ interface ResultadoProvaProps {
   onVoltarALista: () => void;
 }
 
+const obterLabelAlternativa = (index: number, formato?: "letras" | "potencias"): string => {
+  if (formato === "potencias") {
+    const potencias = [1, 2, 4];
+    return potencias[index].toString();
+  }
+  return ["A", "B", "C"][index];
+};
+
 export const ResultadoProva: React.FC<ResultadoProvaProps> = ({
   resposta,
   onVoltarALista
@@ -20,6 +28,8 @@ export const ResultadoProva: React.FC<ResultadoProvaProps> = ({
   ).length;
   const erros = totalQuestoes - acertos;
   const percentual = ((acertos / totalQuestoes) * 100).toFixed(1);
+
+  const formato: "letras" | "potencias" = resposta.provaFormat || "letras";
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
@@ -85,13 +95,13 @@ export const ResultadoProva: React.FC<ResultadoProvaProps> = ({
                   <strong style={{ color: usuarioAcertou ? "#28a745" : "#dc3545" }}>
                     Sua resposta:
                   </strong>{" "}
-                  {questao.alternativas[respostaDoUsuario]}
+                  {obterLabelAlternativa(respostaDoUsuario, formato)} — {questao.alternativas[respostaDoUsuario]}
                 </p>
 
                 {!usuarioAcertou && (
                   <p>
                     <strong style={{ color: "#28a745" }}>Resposta correta:</strong>{" "}
-                    {questao.alternativas[respostaCorreta!]}
+                    {obterLabelAlternativa(respostaCorreta!, formato)} — {questao.alternativas[respostaCorreta!]}
                   </p>
                 )}
               </div>

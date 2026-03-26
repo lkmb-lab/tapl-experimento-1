@@ -4,18 +4,24 @@ import { ProvaList } from "./components/ProvaList";
 import { ProvaForm } from "./components/ProvaForm";
 import { ProvaResponder } from "./components/ProvaResponder";
 import { ResultadoProva } from "./components/ResultadoProva";
-import { Resposta } from "./types";
+import { Resposta, Prova } from "./types";
 
-type TelaAtual = "lista" | "criar" | "responder" | "resultado";
+type TelaAtual = "lista" | "criar" | "editar" | "responder" | "resultado";
 
 const App = () => {
   const [telaAtual, setTelaAtual] = useState<TelaAtual>("lista");
   const [provaIdSelecionada, setProvaIdSelecionada] = useState<string>("");
+  const [provaEdicao, setProvaEdicao] = useState<Prova | null>(null);
   const [resultadoProva, setResultadoProva] = useState<Resposta | null>(null);
 
   const aoResponder = (provaId: string) => {
     setProvaIdSelecionada(provaId);
     setTelaAtual("responder");
+  };
+
+  const aoEditar = (prova: Prova) => {
+    setProvaEdicao(prova);
+    setTelaAtual("editar");
   };
 
   const aoResultado = (resposta: Resposta) => {
@@ -25,6 +31,7 @@ const App = () => {
 
   const aoVoltarALista = () => {
     setProvaIdSelecionada("");
+    setProvaEdicao(null);
     setResultadoProva(null);
     setTelaAtual("lista");
   };
@@ -32,7 +39,11 @@ const App = () => {
   return (
     <div style={{ fontFamily: "Arial, sans-serif", backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
       {telaAtual === "lista" && (
-        <ProvaList onResponder={aoResponder} onCriar={() => setTelaAtual("criar")} />
+        <ProvaList 
+          onResponder={aoResponder} 
+          onCriar={() => setTelaAtual("criar")} 
+          onEditar={aoEditar}
+        />
       )}
 
       {telaAtual === "criar" && (
@@ -41,6 +52,17 @@ const App = () => {
             setTelaAtual("lista");
           }}
           onCancelar={() => setTelaAtual("lista")}
+          provaEditar={null}
+        />
+      )}
+
+      {telaAtual === "editar" && (
+        <ProvaForm
+          onSalvo={() => {
+            setTelaAtual("lista");
+          }}
+          onCancelar={() => setTelaAtual("lista")}
+          provaEditar={provaEdicao}
         />
       )}
 

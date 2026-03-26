@@ -5,9 +5,10 @@ import { apiService } from "../services/api";
 interface ProvaListProps {
   onResponder: (provaId: string) => void;
   onCriar: () => void;
+  onEditar: (prova: Prova) => void;
 }
 
-export const ProvaList: React.FC<ProvaListProps> = ({ onResponder, onCriar }) => {
+export const ProvaList: React.FC<ProvaListProps> = ({ onResponder, onCriar, onEditar }) => {
   const [provas, setProvas] = useState<Prova[]>([]);
   const [carregando, setCarregando] = useState(true);
 
@@ -25,6 +26,19 @@ export const ProvaList: React.FC<ProvaListProps> = ({ onResponder, onCriar }) =>
   useEffect(() => {
     carregarProvas();
   }, []);
+
+  const deletarProva = async (id: string) => {
+    if (!window.confirm("Tem certeza que deseja deletar esta prova?")) {
+      return;
+    }
+    try {
+      await apiService.deletarProva(id);
+      carregarProvas();
+    } catch (error) {
+      console.error("Erro ao deletar prova:", error);
+      alert("Erro ao deletar prova");
+    }
+  };
 
   if (carregando) return <div>Carregando provas...</div>;
 
@@ -70,29 +84,71 @@ export const ProvaList: React.FC<ProvaListProps> = ({ onResponder, onCriar }) =>
               <div>
                 <h3 style={{ margin: "0 0 5px 0" }}>{prova.titulo}</h3>
                 <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
-                  {prova.questoes.length} questões
+                  {prova.questoes.length} questões • Formato: {prova.alternativasFormat || "letras"}
                 </p>
               </div>
-              <button
-                onClick={() => {
-                  if (prova.questoes.length === 0) {
-                    alert("Esta prova não tem questões ainda!");
-                    return;
-                  }
-                  onResponder(prova.id);
-                }}
-                disabled={prova.questoes.length === 0}
-                style={{
-                  padding: "10px 20px",
-                  backgroundColor: prova.questoes.length > 0 ? "#007bff" : "#ccc",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: prova.questoes.length > 0 ? "pointer" : "not-allowed"
-                }}
-              >
-                Responder
-              </button>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <button
+                  onClick={() => {
+                    if (prova.questoes.length === 0) {
+                      alert("Esta prova não tem questões ainda!");
+                      return;
+                    }
+                    onResponder(prova.id);
+                  }}
+                  disabled={prova.questoes.length === 0}
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: prova.questoes.length > 0 ? "#007bff" : "#ccc",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: prova.questoes.length > 0 ? "pointer" : "not-allowed"
+                  }}
+                >
+                  Responder
+                </button>
+                <button
+                  onClick={() => onEditar(prova)}
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#ffc107",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer"
+                  }}
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => apiService.downloadGabarito(prova.id)}
+                  disabled={prova.questoes.length === 0}
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: prova.questoes.length > 0 ? "#6f42c1" : "#ccc",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: prova.questoes.length > 0 ? "pointer" : "not-allowed"
+                  }}
+                >
+                  Baixar Gabarito
+                </button>
+                <button
+                  onClick={() => deletarProva(prova.id)}
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer"
+                  }}
+                >
+                  Deletar
+                </button>
+              </div>
             </div>
           ))}
         </div>

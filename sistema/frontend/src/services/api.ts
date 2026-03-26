@@ -32,6 +32,13 @@ export const apiService = {
     return res.json();
   },
 
+  async deletarProva(id: string): Promise<void> {
+    await fetch(`${API_BASE}/provas/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    });
+  },
+
   // Respostas
   async submeterRespostas(provaId: string, respostas: number[]): Promise<Resposta> {
     const res = await fetch(`${API_BASE}/respostas`, {
@@ -45,5 +52,16 @@ export const apiService = {
   async obterResposta(id: string): Promise<Resposta> {
     const res = await fetch(`${API_BASE}/respostas/${id}`);
     return res.json();
+  },
+
+  async downloadGabarito(provaId: string): Promise<void> {
+    const response = await fetch(`${API_BASE}/provas/${provaId}/gabarito/csv`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `gabarito_prova_${provaId}.csv`;
+    link.click();
+    window.URL.revokeObjectURL(url);
   }
 };

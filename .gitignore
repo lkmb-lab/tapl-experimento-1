@@ -416,3 +416,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Project-generated artifacts
+sistema/backend/*.pdf
+sistema/backend/data/provas_geradas.json

@@ -8,6 +8,14 @@ interface ProvaResponderProps {
   onVoltar: () => void;
 }
 
+const obterLabelAlternativa = (index: number, formato?: "letras" | "potencias"): string => {
+  if (formato === "potencias") {
+    const potencias = [1, 2, 4];
+    return potencias[index].toString();
+  }
+  return ["A", "B", "C"][index];
+};
+
 export const ProvaResponder: React.FC<ProvaResponderProps> = ({
   provaId,
   onResultado,
@@ -114,7 +122,7 @@ export const ProvaResponder: React.FC<ProvaResponderProps> = ({
                     onChange={() => selecionarAlternativa(index, altIndex)}
                     style={{ marginRight: "10px", cursor: "pointer" }}
                   />
-                  {alt}
+                  {obterLabelAlternativa(altIndex, prova.alternativasFormat)} — {alt}
                 </label>
               ))}
             </div>
