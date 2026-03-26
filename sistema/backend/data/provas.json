@@ -1,10 +1,5 @@
 [
   {
-    "id": "1774422040410",
-    "titulo": "Engenharia",
-    "questoes": []
-  },
-  {
     "id": "1774422418067",
     "titulo": "Historia",
     "questoes": [
@@ -46,5 +41,41 @@
       }
     ],
     "dataCriacao": "2026-03-25T18:00:43.848Z"
+  },
+  {
+    "id": "1774472348266",
+    "titulo": "Avaliação Específica - 2º Bimestre",
+    "questoes": [
+      {
+        "id": "1774472338785",
+        "enunciado": "Qual é a capital do tacacá?",
+        "alternativas": [
+          "Manaus",
+          "Belém",
+          "Sergipe"
+        ],
+        "respostaCorreta": 1
+      }
+    ],
+    "dataCriacao": "2026-03-25T20:59:08.266Z",
+    "alternativasFormat": "potencias"
+  },
+  {
+    "id": "1774484184161",
+    "titulo": "Avaliação sobre a disciplina de ML",
+    "questoes": [
+      {
+        "id": "1774484179336",
+        "enunciado": "Qual é o tipo de aprendizado de ML",
+        "alternativas": [
+          "Supervisionado",
+          "Subjulgado",
+          "Superminerado"
+        ],
+        "respostaCorreta": 0
+      }
+    ],
+    "dataCriacao": "2026-03-26T00:16:24.161Z",
+    "alternativasFormat": "potencias"
   }
 ]
